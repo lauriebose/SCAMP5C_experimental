@@ -1,0 +1,2024 @@
+>apron
+{
+    >code
+    {
+        p| !include('apron.aps')
+        +| // APRON Pre-Processor Files
+        +p| !include('apron_base.aps')
+        ++| // This is the main APRON construction file
+        ++p| !sim_core('cores/core_apron.dll')
+        ++| 
+        ++| // First define the operator function overloads
+        ++p| !operator(=, load)
+        ++p| !operator(+, add)
+        ++p| !operator(/, div)
+        ++p| !operator(*, mul)
+        ++p| !operator(-, sub)
+        ++| 
+        ++| // Now define standard objects - STRINGS and VARIABLES are already included
+        ++p| !object('register', 'r', 0, 'SIM_REGISTER')
+        ++p| !define(REGISTER, 'register')
+        ++| 
+        ++| 
+        ++p| !object('GUI', 'h', 700, 'SIM_VARIABLE')
+        ++p| !define(SLIDER, 'GUI')
+        ++| 
+        ++p| !define(DEG2RAD, 0.017453292)
+        ++p| !define(RAD2DEG, 57.29577951)
+        ++| 
+        ++p| !default_palette(1.0, 'Apron')
+        ++| 
+        ++p| !define(TRUE, 1)
+        ++p| !define(FALSE, 0)
+        ++| 
+        ++p| !valid(load, v, n)
+        ++p| !valid(load, v, v)
+        ++p| !valid(load, r, n)
+        ++p| !valid(load, r, v)
+        ++p| !valid(load, r, r)
+        ++| 
+        +| 
+        +| 
+        p| !include('apron.io.aps')
+        +| // This plug-in handles a variety of common File IO routines
+        +p| !module('apron.io.dll')
+        +| 
+        +p| !define(YES, 1)
+        +p| !define(NO, 0)
+        +| 
+        +p| !macro_def
+        +pg| 	$r1 = io.image.open($filename)
+        +p| !macro_begin
+        +p| 	plugin(?, 0, $r1, $filename)
+        +p| !macro_end
+        +| 
+        +p| !macro_def
+        +pg| 	io.image.save($r1, $filename)
+        +p| !macro_begin
+        +p| 	plugin(?, 1, $r1, $filename)
+        +p| !macro_end
+        +| 
+        +p| !macro_def
+        +pg| 	$r1 = io.image.opencount($filename, $counter, $extension)
+        +p| !macro_begin
+        +p| 	plugin(?, 2, $r1, $filename, $counter, $extension)
+        +p| !macro_end
+        +| 
+        +p| !macro_def
+        +pg| 	io.image.savecount($r1, $filename, $counter, $extension)
+        +p| !macro_begin
+        +p| 	plugin(?, 3, $r1, $filename, $counter, $extension)
+        +p| !macro_end
+        +| 
+        +p| !macro_def
+        +pg| 	$r1 = io.csv.open($filename)
+        +p| !macro_begin
+        +p| 	plugin(?, 4, $r1, $filename)
+        +p| !macro_end
+        +| 
+        +p| !macro_def
+        +pg| 	io.csv.save($r1, $filename)
+        +p| !macro_begin
+        +p| 	plugin(?, 5, $r1, $filename)
+        +p| !macro_end
+        +| 
+        +p| !macro_def
+        +pg| 	$r1 = io.csv.opencount($filename, $counter, $extension)
+        +p| !macro_begin
+        +p| 	plugin(?, 6, $r1, $filename, $counter, $extension)
+        +p| !macro_end
+        +| 
+        +p| !macro_def
+        +pg| 	io.csv.savecount($r1, $filename, $counter, $extension)
+        +p| !macro_begin
+        +p| 	plugin(?, 7, $r1, $filename, $counter, $extension)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg| 	io.imagergb.open($filename, $red, $green, $blue)
+        +p| !macro_begin
+        +p| 	plugin(?, 8, $filename, $red, $green, $blue)
+        +p| !macro_end
+        +| 
+        +| 
+        +p| !macro_def
+        +pg| 	io.imagergb.opencount($filename, $counter, $extension, $red, $green, $blue)
+        +p| !macro_begin
+        +p| 	plugin(?, 9, $filename, $counter, $extension, $red, $green, $blue)
+        +p| !macro_end
+        +| 
+        +p| !macro_def
+        +pg| 	io.imagergb.savecount($r1, $g1, $b1, $filename, $counter, $extension)
+        +p| !macro_begin
+        +p| 	plugin(?, 10, $r1, $g1, $b1,  $filename, $counter, $extension)
+        +p| !macro_end
+        p| !include('apron.scamp5c.host.aps')
+        +| 
+        +p| !module('apron.scamp5c.host.dll')
+        +| 
+        +p| !define(SCAMP5C_FPGA_BIT_FILE, 'ipu_ok_scamp5_itfc.bit' )
+        +p| !define(SCAMP5C_BYTES_PER_ICW,16)
+        +p| !default_palette(0,'scamp5c_analog')
+        +| 
+        +p| !object('datasheet', 'ds', 301, 'SIM_REGISTER')
+        +| 
+        +| 
+        +| //------------------------------------------------------------------------------
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.connect
+        +p| !macro_begin
+        +p|     plugin(?, 0, SCAMP5C_FPGA_BIT_FILE)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.program($icw_file)
+        +p| !macro_begin
+        +p|     plugin(?, 1, $icw_file, SCAMP5C_BYTES_PER_ICW)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.start
+        +p| !macro_begin
+        +p|     plugin(?, 2)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.stop
+        +p| !macro_begin
+        +p|     plugin(?, 3)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.frame.send($r1)
+        +p| !macro_begin
+        +p|     plugin(?, 4, $r1, 0, 0, 160, 80)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.frame.sendwindow($r1, $xMin, $yMin, $xMax, $yMax)
+        +p| !macro_begin
+        +p|     plugin(?, 4, $r1, $xMin, $yMin, $xMax, $yMax)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     $r1 = scamp5c.frame.wait($r2)
+        +p| !macro_begin
+        +p|     plugin(?, 5, $r1, $r2)
+        +p| !macro_end
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.port($id, $value)
+        +p| !macro_begin
+        +p|     plugin(?, 6, $id, $value)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.reset.all
+        +p| !macro_begin
+        +p|     plugin(?, 7)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     $p1 = scamp5c.get_file_modification_time($p2)
+        +p| !macro_begin
+        +p|     plugin(?, 16, $p1, $p2)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.fpacframe.sendwindow($r1, $xMin, $yMin, $xMax, $yMax)
+        +p| !macro_begin
+        +p|     plugin(?, 17, $r1, $xMin, $yMin, $xMax, $yMax)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     $r1 = scamp5c.fpacframe.wait($r2)
+        +p| !macro_begin
+        +p|     plugin(?, 18, $r1, $r2)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.fpacgreyframe.sendwindow($r1, $xMin, $yMin, $xMax, $yMax)
+        +p| !macro_begin
+        +p|     plugin(?, 19, $r1, $xMin, $yMin, $xMax, $yMax)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     $r1 = scamp5c.fpacgreyframe.wait($r2)
+        +p| !macro_begin
+        +p|     plugin(?, 20, $r1, $r2)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     $r1 = scamp5c.bit_frame.wait($r2)
+        +p| !macro_begin
+        +p|     plugin(?, 21, $r1, $r2)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.draw.rect($reg,$xmin,$xmax,$ymin,$ymax,$val)
+        +p| !macro_begin
+        +p|     :x=$xmin
+        +p|     :y=$ymin
+        +p|     :#loop1     
+        +p|         pixel.set($reg,:x,$ymin,$val)
+        +p|         pixel.set($reg,:x,$ymax,$val)       
+        +p|         :x=:x+1
+        +p|     jumpif(:x,<=,$xmax,:#loop1)
+        +p|     :#loop2     
+        +p|         pixel.set($reg,$xmin,:y,$val)
+        +p|         pixel.set($reg,$xmax,:y,$val)       
+        +p|         :y=:y+1
+        +p|     jumpif(:y,<=,$ymax,:#loop2)
+        +p| !macro_end
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.box.wait($xmin, $xmax, $ymin, $ymax)
+        +p| !macro_begin
+        +p|     plugin(?, 8, $xmin, $xmax, $ymin, $ymax)
+        +p| !macro_end
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     $r1 =scamp5c.dig8.wait($r2)
+        +p| !macro_begin
+        +p|     plugin(?, 21, $r1, $r2)
+        +p| !macro_end
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.coord.stream($streams, $id, $first_x, $first_y, $samples)
+        +p| !macro_begin
+        +p|     plugin(?, 22, $streams, $first_x, $first_y, $id, $samples)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.coord.stream.reg($streams, $id)
+        +p| !macro_begin
+        +p|     plugin(?, 23, $streams,$id)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     $r1 = scamp5c.datasheet.wait($rows,$cols,$row_major)
+        +p| !macro_begin
+        +p|     plugin(?, 24, $r1, $rows, $cols, $row_major )
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.coord.x.wait($v1)
+        +p| !macro_begin
+        +p|     plugin(?, 9, $v1)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.coord.y.wait($v1)
+        +p| !macro_begin
+        +p|     plugin(?, 10, $v1)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.voltages
+        +p| !macro_begin
+        +p|     plugin(?, 12, volt[pin7], volt[pin8], volt[vga_opoff], volt[dac_bias], volt[vga_gainscale], volt[vga_ipoffset])
+        +p|     plugin(?, 13, volt[vref_ampA], volt[vref_ampB], volt[adc_ref_hi], volt[adc_ref_lo], volt[pin2], volt[vref])
+        +p|     plugin(?, 14, volt[c_bias], volt[c_bus], volt[p_bias], volt[vrpix], volt[vga_gainctrl], volt[dac_ref])
+        +p|     plugin(?, 15, volt[tp22], volt[vddf], volt[vdda], volt[vres], volt[vpre])
+        +p|     plugin(?, 11)
+        +p| !macro_end
+        +| 
+        +| 
+        +| 
+        +p| !macro_def
+        +pg|     scamp5c.verbose($r1)
+        +p| !macro_begin
+        +p|     plugin(?, 16, $r1)
+        +p| !macro_end
+        +| 
+        +| 
+        +| //------------------------------------------------------------------------------
+        +| 
+        +| 
+        +p| !define(PE_DIM_X, 256)
+        +p| !define(PE_DIM_Y, 256)
+        +| 
+        +p| !object('clocks', 'clk', 800, 'SIM_VARIABLE')
+        +p| !object('voltages', 'volt', 801, 'SIM_VARIABLE')
+        +p| !define(CLK, 'clocks')
+        +p| !define(VOLT, 'voltages')
+        +| 
+        +p| !create('pin7', VOLT)
+        +p| !create('pin8', VOLT) 
+        +p| !create('vga_opoff', VOLT)
+        +p| !create('dac_bias', VOLT) 
+        +p| !create('vga_gainscale', VOLT) 
+        +p| !create('vga_ipoffset', VOLT) 
+        +p| !create('vref_ampA', VOLT) 
+        +p| !create('vref_ampB', VOLT) 
+        +p| !create('adc_ref_hi', VOLT) 
+        +p| !create('adc_ref_lo', VOLT) 
+        +p| !create('pin2', VOLT) 
+        +p| !create('vref', VOLT)
+        +p| !create('c_bias', VOLT)
+        +p| !create('c_bus', VOLT) 
+        +p| !create('p_bias', VOLT)
+        +p| !create('vrpix', VOLT) 
+        +p| !create('vga_gainctrl', VOLT)
+        +p| !create('dac_ref', VOLT)
+        +p| !create('tp22', VOLT) 
+        +p| !create('vddf', VOLT)
+        +p| !create('vdda', VOLT) 
+        +p| !create('vres', VOLT) 
+        +p| !create('vpre', VOLT) 
+        +| 
+        +p| !create('frame_rate', CLK)
+        +p| !create('clk1_r', CLK)
+        +p| !create('clk1_f', CLK)
+        +p| !create('clk2_r', CLK)
+        +p| !create('clk2_f', CLK)
+        +p| !create('clk3_r', CLK)
+        +p| !create('clk3_f', CLK)
+        +p| !create('clk4_r', CLK)
+        +p| !create('clk4_f', CLK)
+        +| 
+        +c| clk[clk1_r] = 1 //was0
+        +c| clk[clk1_f] = 5  //4
+        +| 
+        +c| clk[clk2_r] = 6 //4
+        +c| clk[clk2_f] = 9 //9
+        +| 
+        +c| clk[clk3_r] = 0 //0
+        +c| clk[clk3_f] = 10 //10
+        +| 
+        +c| clk[clk4_r] = 0
+        +c| clk[clk4_f] = 10
+        +| 
+        +c| clk[frame_rate] = 30
+        +| 
+        +| // Default voltages
+        +c| volt[pin7]          = 1.0
+        +c| volt[pin8]          = 1.250
+        +c| volt[vga_opoff]     = 1.1 //pre 1.1
+        +c| volt[dac_bias]      = 0.3  //prev 0.45
+        +c| volt[vga_gainscale] = 0.0
+        +c| volt[vga_ipoffset]  = 0.23
+        +c| volt[vref_ampA]     = 0.45
+        +c| volt[vref_ampB]     = 0.45
+        +c| volt[adc_ref_hi]    = 1.6
+        +c| volt[adc_ref_lo]    = 0.2
+        +c| volt[pin2]          = 2.0
+        +c| volt[vref]          = 1.0
+        +c| volt[c_bias]        = 1.530
+        +c| volt[c_bus]         = 1.0
+        +c| volt[p_bias]        = 2.9
+        +c| volt[vrpix]         = 0.33
+        +c| volt[vga_gainctrl]  = -0.695 //prev -0.695
+        +c| volt[dac_ref]       = -0.2 //prev -0.1
+        +c| volt[tp22]          = 3.3
+        +c| volt[vddf]          = 2.9
+        +c| volt[vdda]          = 2.68
+        +c| volt[vres]          = 1.46
+        +c| volt[vpre]          = 1.9
+        +| 
+        +c| pixels = PE_DIM_X
+        +c| pixels = pixels*PE_DIM_Y
+        +| 
+        +c| frame_count = 0
+        +c| sim_step = 0
+        +| 
+        +p| !default_palette(0,'raw')
+        +p| !create( 'image_buffer', REGISTER, PE_DIM_X, PE_DIM_Y )
+        +| 
+        +| //------------------------------------------------------------------------------
+        +| 
+        +p| !include('apron.timer.aps')
+        ++| /// @name apron.timer
+        ++| /// @title APRON Plug-In for Time Keeping functions
+        ++| /// @copyright © David R W Barr, 2011
+        ++| /// @url http://www.apronsoft.co.uk
+        ++p| !module('apron.timer.dll')
+        ++| 
+        ++| /// @description_start
+        ++| /// This plug-in contains a variety of functions for using time in your algorithm. Such functions may
+        ++| /// consist of frame-rate calculaton and real-time/wall-time constraints. In addition there are
+        ++| /// some utility functions for quickly adding measurement functionality to an algorithm.
+        ++| /// Only one timer can be used.
+        ++| /// @description_end
+        ++| 
+        ++| /// Starts the internal timer
+        ++p| !macro_def
+        ++pg| 	timer.start
+        ++p| !macro_begin
+        ++p| 	plugin(?, 0)
+        ++p| !macro_end
+        ++| 
+        ++| /// Stops the internal timer
+        ++p| !macro_def
+        ++pg| 	timer.stop
+        ++p| !macro_begin
+        ++p| 	plugin(?, 1)
+        ++p| !macro_end
+        ++| 
+        ++| /// Informs the internal timer that "conceptual" frame has occured, updating internal counters
+        ++p| !macro_def
+        ++pg| 	timer.frame
+        ++p| !macro_begin
+        ++p| 	plugin(?, 2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Returns the current frames per second (ie how often timer.frame is called)
+        ++| /// $v1 is set to the frame-rate
+        ++p| !macro_def
+        ++pg| 	timer.fps($v1)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 3, $v1)
+        ++p| !macro_end
+        ++| 
+        ++| /// Returns how much time has elapsed since the timer was started
+        ++| /// $v1 is set to the elapsed time in seconds
+        ++p| !macro_def
+        ++pg| 	timer.elapsed($v1)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 4, $v1)
+        ++p| !macro_end
+        ++| 
+        ++| /// Convenience function to create a slider to illustrate real-time frames per second
+        ++| /// $max is an upper limit for the created slider
+        ++p| !macro_def
+        ++pg| 	timer.quickfps.start($max)
+        ++p| !macro_begin
+        ++p| 	core.load(quick_fps, 0)
+        ++p| 	fps_slider = sim.addSlider('FPS', 0, $max, 0, 1)
+        ++p| 	timer.start
+        ++p| !macro_end
+        ++| 
+        ++| /// Updates the internal timer and the visible slider, assuming a "frame"  has occured
+        ++p| !macro_def
+        ++pg| 	timer.quickfps.update
+        ++p| !macro_begin
+        ++p| 	timer.frame
+        ++p| 	timer.fps(quick_fps)
+        ++p| 	sim.set(fps_slider, quick_fps)
+        ++p| !macro_end
+        ++| 
+        ++| 
+        ++| /// @off
+        ++p| !macro_def
+        ++pg| 	timer.realtime.start
+        ++p| !macro_begin
+        ++p| 	core.load(timer_elapsed, 0)
+        ++p| 	timer.start
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	timer.realtime.elapsed($v)
+        ++p| !macro_begin
+        ++p| 	core.load(:t, 0)
+        ++p| 	timer.elapsed(:t)
+        ++p| 	$v = :t - timer_elapsed
+        ++p| 	core.load(timer_elapsed,:t)
+        ++p| !macro_end
+        ++| 	
+        +p| !include('apron.math.aps')
+        ++| /// @name apron.math
+        ++| /// @title APRON Plug-In for enhanced Mathematical Functions
+        ++| /// @copyright © David R W Barr, 2010
+        ++| /// @url http://www.apronsoft.co.uk
+        ++p| !module('apron.math.dll')
+        ++| 
+        ++| /// @description_start
+        ++| /// This plug-in provides numerous mathematical functions. These functions are imlemented 
+        ++| /// as those in the C++ programming language. Unless otherwise stated, all functions are
+        ++| /// sensitive to masks being applied, and can be used with either registers or variables.
+        ++| /// When using registers, operations are performed element-wise.
+        ++| /// @description_end
+        ++| 
+        ++| /// @group Mathematical Constants
+        ++| /// @gdesc Useful floating point constants
+        ++p| !define(ONE, 1.0) // 1.0
+        ++p| !define(ZERO, 0.0) // 0.0
+        ++p| !define(EPSILON, 0.0001) // 0.0001
+        ++p| !define(PI, 3.14159265) // 3.14159265
+        ++p| !define(GOLDRAT, 1.61803398) // 1.61803398
+        ++p| !define(BARR, 319.0) // 319.0
+        ++| 
+        ++| 
+        ++| 
+        ++| /// Calculates Sine
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.sin($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 0, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Cosine
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.cos($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 1, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Tangent
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.tan($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 2, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates ArcSine
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.asin($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 3, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates ArcCosine
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.acos($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 4, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates ArcTangent
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.atan($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 5, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Hyperbolic Sine
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.sinh($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 6, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Hyperbolic Cosine
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.cosh($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 7, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Hyperbolic Tangent
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.tanh($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 8, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates ArcTangent of y/x
+        ++| /// $p1 target object
+        ++| /// $x is x component of direction vector
+        ++| /// $y is y component of direction vector
+        ++p| !macro_def
+        ++pg| 	$p1 = math.atan2($x, $y)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 25, $p1, $x, $y)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Natural Logarithm
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.ln($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 9, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Logarithm
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.log($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 10, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Exponential Function
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.exp($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 11, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Square Root
+        ++| /// $p1 target object
+        ++| /// $p2 source object or number
+        ++p| !macro_def
+        ++pg| 	$p1 = math.sqrt($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 12, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Determines Minimum value found in a register
+        ++| /// $p1 is a variable set to the minimum value found
+        ++| /// $p2 is the array that is searched
+        ++p| !macro_def
+        ++pg| 	$p1 = math.globmin($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 13, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Determines Maximum value found in a register
+        ++| /// $p1 is a variable set to the maximum value found
+        ++| /// $p2 is the array that is searched
+        ++p| !macro_def
+        ++pg| 	$p1 = math.globmax($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 14, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Determines Minimum between two objects
+        ++| /// $p1 is object set with minimum value(s)
+        ++| /// $p2 is object 1
+        ++| /// $p2 is object 2
+        ++p| !macro_def
+        ++pg| 	$p1 = math.min($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 15, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++| /// Determines Maximum between two objects
+        ++| /// $p1 is object set with maximum value(s)
+        ++| /// $p2 is object 1
+        ++| /// $p2 is object 2
+        ++p| !macro_def
+        ++pg| 	$p1 = math.max($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 16, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++| 
+        ++| /// Calculates the mean value of a register, masked pixels are set to 0
+        ++| /// $p1 is variable set with mean 
+        ++| /// $p2 is register
+        ++p| !macro_def
+        ++pg| 	$p1 = math.mean($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 17, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates the variance of a register, masked pixels are set to 0
+        ++| /// $p1 is variable set with variance 
+        ++| /// $p2 is register
+        ++p| !macro_def
+        ++pg| 	$p1 = math.variance($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 18, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates the standard deviation of a register, masked pixels are set to 0
+        ++| /// $p1 is variable set with sd 
+        ++| /// $p2 is register
+        ++p| !macro_def
+        ++pg| 	$p1 = math.sd($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 19, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Calculates Reciprocal
+        ++| /// $p1 is object set with the reciprocal value
+        ++| /// $p2 is source object
+        ++p| !macro_def
+        ++pg| 	$p1 = math.recip($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 20, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Rounds down
+        ++| /// $p1 is target object
+        ++| /// $p2 is source object
+        ++p| !macro_def
+        ++pg| 	$p1 = math.floor($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 21, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Rounds Up
+        ++| /// $p1 is target object
+        ++| /// $p2 is source object
+        ++p| !macro_def
+        ++pg| 	$p1 = math.ceiling($p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 22, $p1, $p2)
+        ++p| !macro_end
+        ++| 
+        ++| /// Performs in-place inversion, i.e. Y = K - X
+        ++| /// $p1 is target object
+        ++| /// $k1 is the upper bound of the data-range
+        ++| /// $p2 is source object
+        ++p| !macro_def
+        ++pg| 	$p1 = math.invert($k1, $p2)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 23, $p1, $p2, $k1)
+        ++p| !macro_end
+        ++| 
+        ++| /// Returns floating point remainder
+        ++| /// $p1 is target object
+        ++| /// $p2 is source object
+        ++| /// $k1 is the divisor
+        ++p| !macro_def
+        ++pg| 	$p1 = math.fmod($p2, $k1)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 24, $p1, $p2, $k1)
+        ++p| !macro_end
+        ++| 
+        ++| 
+        ++| /// Returns floating point power
+        ++| /// $p1 is target object
+        ++| /// $p2 is source object
+        ++| /// $k1 is index
+        ++p| !macro_def
+        ++pg| 	$p1 = math.power($p2, $k1)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 36, $p1, $p2, $k1)
+        ++p| !macro_end
+        ++| 
+        ++| 
+        ++p| !macro_def
+        ++pg| 	math.norm($frame, $scale)
+        ++p| !macro_begin
+        ++p| 	:m = 0
+        ++p| 	:m = math.globmax($frame)
+        ++p| 	$frame = $frame / :m
+        ++p| 	$frame = $frame * $scale
+        ++p| !macro_end
+        ++| 
+        ++| /// @off
+        ++| 
+        ++p| !macro_def
+        ++pg| 	$p1 = math.experiment.c($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 26, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	$p1 = math.experiment.asm($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 27, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	$p1 = math.experiment.apron($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 28, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	$p1 = math.experiment.sse($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 29, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	$p1 = math.dct.encode($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 30, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	$p1 = math.dct.decode($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 31, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	$p1 = math.dct.quant8($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 32, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	$p1 = math.dct.dequant8($p2, $p3)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 33, $p1, $p2, $p3)
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	math.net.connect
+        ++p| !macro_begin
+        ++p| 	plugin(?, 34)
+        ++p| !macro_end
+        ++| 
+        ++p| !macro_def
+        ++pg| 	math.net.send($r1)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 35, $r1)
+        ++p| !macro_end
+        +p| !include('apron.stack.aps')
+        ++| /// @name apron.stack
+        ++| /// @title APRON Plug-In containg register stacking functions
+        ++| /// @copyright © David R W Barr, 2011
+        ++| /// @url http://www.apronsoft.co.uk
+        ++p| !module('apron.stack.dll')
+        ++| 
+        ++| /// @description_start
+        ++| /// This small plug-in maintains a stack of registers. The registers can be of different dimensions.
+        ++| /// @description_end
+        ++| 
+        ++| /// Push a register onto the stack
+        ++| /// $r1 is the register to be pushed
+        ++p| !macro_def
+        ++pg| 	stack.reg.push($r1)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 0, $r1)
+        ++p| !macro_end
+        ++| 
+        ++| /// Pop a register off the stack
+        ++| /// $r1 is set to the register that is popped. CAUTION! The register dimensions must match!
+        ++p| !macro_def
+        ++pg| 	stack.reg.pop($r1)
+        ++p| !macro_begin
+        ++p| 	plugin(?, 1, $r1)
+        ++p| !macro_end
+        ++| 
+        ++| /// Clears the stack
+        ++p| !macro_def
+        ++pg| 	stack.reg.clear
+        ++p| !macro_begin
+        ++p| 	plugin(?, 2)
+        ++p| !macro_end
+        ++| 
+        ++| 
+        ++| 
+        +| 
+        +p| !define(IPU_PORT_INPUT_1, 18)
+        +p| !define(IPU_PORT_INPUT_2, 19)
+        +p| !define(IPU_PORT_INPUT_3, 20)
+        +p| !define(IPU_PORT_INPUT_4, 21)
+        +p| !define(IPU_PORT_INPUT_5, 22)
+        +| 
+        +p| !macro_def
+        +pg|     _h_macro_program_clocks
+        +p| !macro_begin
+        +p|     // Reprogram the clocks
+        +p|     scamp5c.port(3, clk[clk1_r])
+        +p|     scamp5c.port(4, clk[clk1_f])    
+        +p|     scamp5c.port(5, clk[clk2_r])
+        +p|     scamp5c.port(6, clk[clk2_f])    
+        +p|     scamp5c.port(7, clk[clk3_r])
+        +p|     scamp5c.port(8, clk[clk3_f])
+        +p|     scamp5c.port(9, clk[clk4_r])
+        +p|     scamp5c.port(10,clk[clk4_f])
+        +p|     
+        +p|     //Need to convert frame rate to a 16bit divisor of 1MHz
+        +p|     loword = 0
+        +p|     miword = 0
+        +p|     hiword = 0
+        +p|     
+        +p|     k = 1000000 // clock in Hz
+        +p|     k = k / clk[frame_rate]
+        +p|     k = math.floor(k)
+        +p|     
+        +p|     hiword = k / 65536
+        +p|     hiword = math.floor(hiword)
+        +p|     j = hiword * 65536
+        +p|     
+        +p|     k = k - j
+        +p|     miword = k / 256
+        +p|     miword = math.floor(miword)
+        +p|     j = miword * 256
+        +p|     
+        +p|     loword = k - j
+        +p|     
+        +p|     scamp5c.port(11, loword)
+        +p|     scamp5c.port(12, miword)
+        +p|     scamp5c.port(13, hiword)
+        +p| !macro_end
+        +| 
+        | 
+        p| !default_palette(0,'scamp5c_analog')
+        | 
+        m| timer.quickfps.start( 1000 )
+        +c| 	core.load(quick_fps, 0)
+        +c| 	fps_slider = sim.addSlider('FPS', 0, 1000, 0, 1)
+        +m| 	timer.start
+        ++c| 	plugin(?, 0)
+        | 
+        | // section A: locate the icw file and set frame rate
+        | 
+        c| clk[frame_rate] = 30.000000
+        p| !define( SCAMP5C_FPGA_BIT_FILE, 'C:\apron\bin\\models\scamp5c\ok_scamp5c_ipu.bit' )
+        p| !define( ALGORITHM, 'C:\Users\agile\Dropbox\WORK_STUFF\SCAMP\MISC EXAMPLES\TARGET_TRACKING\SWS_TRACKING\SWS_TRACKING_icw.icw' )
+        | 
+        | 
+        | //------------------------------------------------------------------------------
+        | 
+        | // section B: establish the gui
+        | 
+        p| !create('coords', 'datasheet', 2, 1)
+        c| datasheet[coords] = reg.setPalette('scamp5c_grey')
+        | 
+        c| _h_sh_01 = sim.slider.add( 'threshold', -120, 120, -100, 1, 1 )
+        c| _h_sv_01 = 0
+        | 
+        c| _h_sh_02 = sim.slider.add( 'flood_iterations', 1, 10, 4, 1, 1 )
+        c| _h_sv_02 = 0
+        | 
+        c| _h_sv_temp = 0
+        | 
+        p| !create( 'W3', REGISTER, PE_DIM_X, PE_DIM_Y )
+        c| r[W3] = reg.setPalette('scamp5c_digital')
+        c| sim.display( r[W3] )
+        | 
+        c| sim.tile
+        | 
+        | 
+        | //------------------------------------------------------------------------------
+        | 
+        c| _h_button_c = sim.switch.add('Apply Clocks', 0)
+        c| _h_old_c = 1
+        c| _h_new_c = 0
+        | 
+        c| _h_button_p = sim.switch.add('Reprogram', 1)
+        c| _h_old_p = 1
+        c| _h_new_p = 0
+        | 
+        c| _h_temp = 0
+        | 
+        c| _h_file_time = 0
+        c| _h_auto_program = 0
+        | 
+        | //------------------------------------------------------------------------------
+        | 
+        m| scamp5c.connect
+        +c|     plugin(?, 0, SCAMP5C_FPGA_BIT_FILE)
+        m| scamp5c.start
+        +c|     plugin(?, 2)
+        | 
+        l| #start
+        | 
+        c|     sim.switch.get( _h_button_c, _h_new_c )
+        c|     if( _h_new_c, !=, _h_old_c )
+        c|         _h_old_c = _h_new_c
+        c|         println('SCAMP5: Writing clocks...')
+        m|         _h_macro_program_clocks
+        +|     // Reprogram the clocks
+        +m|     scamp5c.port(3, clk[clk1_r])
+        ++c|     plugin(?, 6, 3, clk[clk1_r])
+        +m|     scamp5c.port(4, clk[clk1_f])    
+        ++c|     plugin(?, 6, 4, clk[clk1_f])
+        +m|     scamp5c.port(5, clk[clk2_r])
+        ++c|     plugin(?, 6, 5, clk[clk2_r])
+        +m|     scamp5c.port(6, clk[clk2_f])    
+        ++c|     plugin(?, 6, 6, clk[clk2_f])
+        +m|     scamp5c.port(7, clk[clk3_r])
+        ++c|     plugin(?, 6, 7, clk[clk3_r])
+        +m|     scamp5c.port(8, clk[clk3_f])
+        ++c|     plugin(?, 6, 8, clk[clk3_f])
+        +m|     scamp5c.port(9, clk[clk4_r])
+        ++c|     plugin(?, 6, 9, clk[clk4_r])
+        +m|     scamp5c.port(10,clk[clk4_f])
+        ++c|     plugin(?, 6, 10, clk[clk4_f])
+        +|     
+        +|     //Need to convert frame rate to a 16bit divisor of 1MHz
+        +c|     loword = 0
+        +c|     miword = 0
+        +c|     hiword = 0
+        +|     
+        +c|     k = 1000000 // clock in Hz
+        +c|     k = k / clk[frame_rate]
+        +m|     k = math.floor(k)
+        ++c| 	plugin(?, 21, k, k)
+        +|     
+        +c|     hiword = k / 65536
+        +m|     hiword = math.floor(hiword)
+        ++c| 	plugin(?, 21, hiword, hiword)
+        +c|     j = hiword * 65536
+        +|     
+        +c|     k = k - j
+        +c|     miword = k / 256
+        +m|     miword = math.floor(miword)
+        ++c| 	plugin(?, 21, miword, miword)
+        +c|     j = miword * 256
+        +|     
+        +c|     loword = k - j
+        +|     
+        +m|     scamp5c.port(11, loword)
+        ++c|     plugin(?, 6, 11, loword)
+        +m|     scamp5c.port(12, miword)
+        ++c|     plugin(?, 6, 12, miword)
+        +m|     scamp5c.port(13, hiword)
+        ++c|     plugin(?, 6, 13, hiword)
+        c|         println('SCAMP5: Writing finished.')
+        c|     endif
+        | 
+        |     //----------------
+        | 
+        c|     sim.switch.get( _h_button_p, _h_new_p )
+        c|     if( _h_new_p, !=, _h_old_p )
+        c|         _h_old_p = _h_new_p
+        c|         if( _h_auto_program, >, 0 )
+        c|             _h_auto_program = 0
+        c|         else
+        c|             _h_auto_program = 1
+        c|         endif
+        c|     endif
+        | 
+        c|     if( _h_auto_program, >, 0 )
+        m|         _h_temp = scamp5c.get_file_modification_time( ALGORITHM )
+        +c|     plugin(?, 16, _h_temp, string[72])
+        c|         if( _h_file_time, !=, _h_temp )
+        c|             _h_file_time = _h_temp
+        c|             println('SCAMP5: Writing program...')
+        m|             scamp5c.program(ALGORITHM)
+        +c|     plugin(?, 1, string[72], SCAMP5C_BYTES_PER_ICW)
+        c|             println('SCAMP5: Writing finished.')
+        c|         endif
+        c|     endif
+        | 
+        |     //----------------
+        | 
+        |     // section C: get slider value and send to ipu
+        | 
+        c|         sim.slider.get( _h_sh_01, _h_sv_temp )
+        c|     if( _h_sv_01, !=, _h_sv_temp )
+        c|         _h_sv_01 = _h_sv_temp
+        m|         scamp5c.port( 18, _h_sv_01 )
+        +c|     plugin(?, 6, 18, _h_sv_01)
+        c|     endif
+        | 
+        c|     sim.slider.get( _h_sh_02, _h_sv_temp )
+        c|     if( _h_sv_02, !=, _h_sv_temp )
+        c|         _h_sv_02 = _h_sv_temp
+        m|         scamp5c.port( 19, _h_sv_02 )
+        +c|     plugin(?, 6, 19, _h_sv_02)
+        c|     endif
+        | 
+        | 
+        | 
+        |     //-----------------
+        | 
+        m|     timer.quickfps.update
+        +m| 	timer.frame
+        ++c| 	plugin(?, 2)
+        +m| 	timer.fps(quick_fps)
+        ++c| 	plugin(?, 3, quick_fps)
+        +c| 	sim.set(fps_slider, quick_fps)
+        c|     frame_count = frame_count + 1
+        | 
+        |     //-----------------
+        | 
+        |     // section D: get image and display
+        | 
+        |     
+        m|     r[W3] = scamp5c.bit_frame.wait(0)
+        +c|     plugin(?, 21, r[W3], 0)
+        c|     sim.show( r[W3] )
+        | 
+        | 
+        c| jump(#start)
+        | 
+        | // end
+        | 
+    }
+
+    >res
+    {
+        >generics
+        {
+            count = 0
+        }
+
+        >registers
+        {
+            >resource
+            {
+                name = image_buffer
+                id = 0
+                type = register
+                simid = 0
+                width = 256
+                height = 256
+                pal_name = raw
+                pal_scale = 0.000000
+            }
+
+            >resource
+            {
+                name = coords
+                id = 0
+                type = datasheet
+                simid = 1
+                width = 2
+                height = 1
+                pal_name = scamp5c_analog
+                pal_scale = 0.000000
+            }
+
+            >resource
+            {
+                name = W3
+                id = 1
+                type = register
+                simid = 2
+                width = 256
+                height = 256
+                pal_name = scamp5c_analog
+                pal_scale = 0.000000
+            }
+
+            count = 3
+        }
+
+        >variables
+        {
+            >resource
+            {
+                name = pin7
+                id = 0
+                type = voltages
+                simid = 0
+            }
+
+            >resource
+            {
+                name = pin8
+                id = 1
+                type = voltages
+                simid = 1
+            }
+
+            >resource
+            {
+                name = vga_opoff
+                id = 2
+                type = voltages
+                simid = 2
+            }
+
+            >resource
+            {
+                name = dac_bias
+                id = 3
+                type = voltages
+                simid = 3
+            }
+
+            >resource
+            {
+                name = vga_gainscale
+                id = 4
+                type = voltages
+                simid = 4
+            }
+
+            >resource
+            {
+                name = vga_ipoffset
+                id = 5
+                type = voltages
+                simid = 5
+            }
+
+            >resource
+            {
+                name = vref_ampA
+                id = 6
+                type = voltages
+                simid = 6
+            }
+
+            >resource
+            {
+                name = vref_ampB
+                id = 7
+                type = voltages
+                simid = 7
+            }
+
+            >resource
+            {
+                name = adc_ref_hi
+                id = 8
+                type = voltages
+                simid = 8
+            }
+
+            >resource
+            {
+                name = adc_ref_lo
+                id = 9
+                type = voltages
+                simid = 9
+            }
+
+            >resource
+            {
+                name = pin2
+                id = 10
+                type = voltages
+                simid = 10
+            }
+
+            >resource
+            {
+                name = vref
+                id = 11
+                type = voltages
+                simid = 11
+            }
+
+            >resource
+            {
+                name = c_bias
+                id = 12
+                type = voltages
+                simid = 12
+            }
+
+            >resource
+            {
+                name = c_bus
+                id = 13
+                type = voltages
+                simid = 13
+            }
+
+            >resource
+            {
+                name = p_bias
+                id = 14
+                type = voltages
+                simid = 14
+            }
+
+            >resource
+            {
+                name = vrpix
+                id = 15
+                type = voltages
+                simid = 15
+            }
+
+            >resource
+            {
+                name = vga_gainctrl
+                id = 16
+                type = voltages
+                simid = 16
+            }
+
+            >resource
+            {
+                name = dac_ref
+                id = 17
+                type = voltages
+                simid = 17
+            }
+
+            >resource
+            {
+                name = tp22
+                id = 18
+                type = voltages
+                simid = 18
+            }
+
+            >resource
+            {
+                name = vddf
+                id = 19
+                type = voltages
+                simid = 19
+            }
+
+            >resource
+            {
+                name = vdda
+                id = 20
+                type = voltages
+                simid = 20
+            }
+
+            >resource
+            {
+                name = vres
+                id = 21
+                type = voltages
+                simid = 21
+            }
+
+            >resource
+            {
+                name = vpre
+                id = 22
+                type = voltages
+                simid = 22
+            }
+
+            >resource
+            {
+                name = frame_rate
+                id = 0
+                type = clocks
+                simid = 23
+            }
+
+            >resource
+            {
+                name = clk1_r
+                id = 1
+                type = clocks
+                simid = 24
+            }
+
+            >resource
+            {
+                name = clk1_f
+                id = 2
+                type = clocks
+                simid = 25
+            }
+
+            >resource
+            {
+                name = clk2_r
+                id = 3
+                type = clocks
+                simid = 26
+            }
+
+            >resource
+            {
+                name = clk2_f
+                id = 4
+                type = clocks
+                simid = 27
+            }
+
+            >resource
+            {
+                name = clk3_r
+                id = 5
+                type = clocks
+                simid = 28
+            }
+
+            >resource
+            {
+                name = clk3_f
+                id = 6
+                type = clocks
+                simid = 29
+            }
+
+            >resource
+            {
+                name = clk4_r
+                id = 7
+                type = clocks
+                simid = 30
+            }
+
+            >resource
+            {
+                name = clk4_f
+                id = 8
+                type = clocks
+                simid = 31
+            }
+
+            >resource
+            {
+                name = pixels
+                id = 0
+                type = variable
+                simid = 32
+            }
+
+            >resource
+            {
+                name = frame_count
+                id = 1
+                type = variable
+                simid = 33
+            }
+
+            >resource
+            {
+                name = sim_step
+                id = 2
+                type = variable
+                simid = 34
+            }
+
+            >resource
+            {
+                name = quick_fps
+                id = 3
+                type = variable
+                simid = 35
+            }
+
+            >resource
+            {
+                name = fps_slider
+                id = 4
+                type = variable
+                simid = 36
+            }
+
+            >resource
+            {
+                name = _h_sh_01
+                id = 5
+                type = variable
+                simid = 37
+            }
+
+            >resource
+            {
+                name = _h_sv_01
+                id = 6
+                type = variable
+                simid = 38
+            }
+
+            >resource
+            {
+                name = _h_sh_02
+                id = 7
+                type = variable
+                simid = 39
+            }
+
+            >resource
+            {
+                name = _h_sv_02
+                id = 8
+                type = variable
+                simid = 40
+            }
+
+            >resource
+            {
+                name = _h_sv_temp
+                id = 9
+                type = variable
+                simid = 41
+            }
+
+            >resource
+            {
+                name = _h_button_c
+                id = 10
+                type = variable
+                simid = 42
+            }
+
+            >resource
+            {
+                name = _h_old_c
+                id = 11
+                type = variable
+                simid = 43
+            }
+
+            >resource
+            {
+                name = _h_new_c
+                id = 12
+                type = variable
+                simid = 44
+            }
+
+            >resource
+            {
+                name = _h_button_p
+                id = 13
+                type = variable
+                simid = 45
+            }
+
+            >resource
+            {
+                name = _h_old_p
+                id = 14
+                type = variable
+                simid = 46
+            }
+
+            >resource
+            {
+                name = _h_new_p
+                id = 15
+                type = variable
+                simid = 47
+            }
+
+            >resource
+            {
+                name = _h_temp
+                id = 16
+                type = variable
+                simid = 48
+            }
+
+            >resource
+            {
+                name = _h_file_time
+                id = 17
+                type = variable
+                simid = 49
+            }
+
+            >resource
+            {
+                name = _h_auto_program
+                id = 18
+                type = variable
+                simid = 50
+            }
+
+            >resource
+            {
+                name = loword
+                id = 19
+                type = variable
+                simid = 51
+            }
+
+            >resource
+            {
+                name = miword
+                id = 20
+                type = variable
+                simid = 52
+            }
+
+            >resource
+            {
+                name = hiword
+                id = 21
+                type = variable
+                simid = 53
+            }
+
+            >resource
+            {
+                name = k
+                id = 22
+                type = variable
+                simid = 54
+            }
+
+            >resource
+            {
+                name = j
+                id = 23
+                type = variable
+                simid = 55
+            }
+
+            count = 56
+        }
+
+        >modules
+        {
+            count = 5
+            module[0] = apron.io.dll
+            module[1] = apron.scamp5c.host.dll
+            module[2] = apron.timer.dll
+            module[3] = apron.math.dll
+            module[4] = apron.stack.dll
+        }
+
+        >strings
+        {
+            count = 86
+            string[0] = 'apron.aps'
+            string[1] = 'apron_base.aps'
+            string[2] = 'cores/core_apron.dll'
+            string[3] = 'register'
+            string[4] = 'r'
+            string[5] = 'SIM_REGISTER'
+            string[6] = 'register'
+            string[7] = 'GUI'
+            string[8] = 'h'
+            string[9] = 'SIM_VARIABLE'
+            string[10] = 'GUI'
+            string[11] = 'Apron'
+            string[12] = 'apron.io.aps'
+            string[13] = 'apron.io.dll'
+            string[14] = 'apron.scamp5c.host.aps'
+            string[15] = 'apron.scamp5c.host.dll'
+            string[16] = 'ipu_ok_scamp5_itfc.bit'
+            string[17] = 'scamp5c_analog'
+            string[18] = 'datasheet'
+            string[19] = 'ds'
+            string[20] = 'SIM_REGISTER'
+            string[21] = 'clocks'
+            string[22] = 'clk'
+            string[23] = 'SIM_VARIABLE'
+            string[24] = 'voltages'
+            string[25] = 'volt'
+            string[26] = 'SIM_VARIABLE'
+            string[27] = 'clocks'
+            string[28] = 'voltages'
+            string[29] = 'pin7'
+            string[30] = 'pin8'
+            string[31] = 'vga_opoff'
+            string[32] = 'dac_bias'
+            string[33] = 'vga_gainscale'
+            string[34] = 'vga_ipoffset'
+            string[35] = 'vref_ampA'
+            string[36] = 'vref_ampB'
+            string[37] = 'adc_ref_hi'
+            string[38] = 'adc_ref_lo'
+            string[39] = 'pin2'
+            string[40] = 'vref'
+            string[41] = 'c_bias'
+            string[42] = 'c_bus'
+            string[43] = 'p_bias'
+            string[44] = 'vrpix'
+            string[45] = 'vga_gainctrl'
+            string[46] = 'dac_ref'
+            string[47] = 'tp22'
+            string[48] = 'vddf'
+            string[49] = 'vdda'
+            string[50] = 'vres'
+            string[51] = 'vpre'
+            string[52] = 'frame_rate'
+            string[53] = 'clk1_r'
+            string[54] = 'clk1_f'
+            string[55] = 'clk2_r'
+            string[56] = 'clk2_f'
+            string[57] = 'clk3_r'
+            string[58] = 'clk3_f'
+            string[59] = 'clk4_r'
+            string[60] = 'clk4_f'
+            string[61] = 'raw'
+            string[62] = 'image_buffer'
+            string[63] = 'apron.timer.aps'
+            string[64] = 'apron.timer.dll'
+            string[65] = 'FPS'
+            string[66] = 'apron.math.aps'
+            string[67] = 'apron.math.dll'
+            string[68] = 'apron.stack.aps'
+            string[69] = 'apron.stack.dll'
+            string[70] = 'scamp5c_analog'
+            string[71] = 'C:\apron\bin\\models\scamp5c\ok_scamp5c_ipu.bit'
+            string[72] = 'C:\Users\agile\Dropbox\WORK_STUFF\SCAMP\MISC EXAMPLES\TARGET_TRACKING\SWS_TRACKING\SWS_TRACKING_icw.icw'
+            string[73] = 'coords'
+            string[74] = 'datasheet'
+            string[75] = 'scamp5c_grey'
+            string[76] = 'threshold'
+            string[77] = 'flood_iterations'
+            string[78] = 'W3'
+            string[79] = 'scamp5c_digital'
+            string[80] = 'Apply Clocks'
+            string[81] = 'Reprogram'
+            string[82] = 'SCAMP5: Writing clocks...'
+            string[83] = 'SCAMP5: Writing finished.'
+            string[84] = 'SCAMP5: Writing program...'
+            string[85] = 'SCAMP5: Writing finished.'
+        }
+
+    }
+
+    >bin
+    {
+        --- 1
+        0000000002000000020000001800000008DA93000000803F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001900000008DA93000000A040000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001A00000008DA93000000C040000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001B00000008DA930000001041000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001C00000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001D00000008DA930000002041000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001E00000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001F00000008DA930000002041000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001700000008DA93000000F041000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000000000008DA93000000803F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000100000008DA93000000A03F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000200000008DA9300CDCC8C3F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000300000008DA93009A99993E000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000400000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000500000008DA93001F856B3E000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000600000008DA93006666E63E000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000700000008DA93006666E63E000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000800000008DA9300CDCCCC3F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000900000008DA9300CDCC4C3E000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000A00000008DA930000000040000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000B00000008DA93000000803F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000C00000008DA93000AD7C33F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000D00000008DA93000000803F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000E00000008DA93009A993940000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000000F00000008DA9300C3F5A83E000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001000000008DA930085EB31BF000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001100000008DA9300CDCC4CBE000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001200000008DA930033335340000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001300000008DA93009A993940000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001400000008DA93001F852B40000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001500000008DA930048E1BA3F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001600000008DA93003333F33F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002000000008DA930000008043000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0300000003000000020000002000000002DA930020000000080000000000804300DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002100000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002200000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002300000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1E00000006000000020000002400000004DA930041000000080000000000000008DA930000007A440800730200000000084000000000803F000000000000000000DA930000000000
+        --- 1
+        1400000002000000080000000000004008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000001700000008DA93000000F041000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        4000000002000000400000000100000004DA93004B000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1E00000007000000020000002500000004DA93004C000000080000000000F0C208DA93000000F042080073020000C8C2084000000000803F080000000000803F00DA930000000000
+        --- 1
+        0000000002000000020000002600000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1E00000007000000020000002700000004DA93004D000000080000000000803F08DA9300000020410800730200008040084000000000803F080000000000803F00DA930000000000
+        --- 1
+        0000000002000000020000002800000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002900000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        4000000002000000400000000200000004DA93004F000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        2400000001000000400000000200000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        2500000001000000080000000000000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1F00000003000000020000002A00000004DA930050000000080000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002B00000008DA93000000803F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002C00000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1F00000003000000020000002D00000004DA930051000000080000000000803F00DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002E00000008DA93000000803F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002F00000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003000000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003100000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003200000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000003000000080000000000803F08DA930000000000040000004700000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000002000000080000000000803F08DA930000000040000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1C00000002000000020000002A00000002DA93002C000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0C00000003000000020000002C00000010DA930001000000020000002B00000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002B00000002DA93002C000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1300000001000000040000005200000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000404002DA93001800000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000804002DA93001900000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000A04002DA93001A00000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000C04002DA93001B00000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000E04002DA93001C00000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000004102DA93001D00000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000104102DA93001E00000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000204102DA93001F00000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003300000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003400000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003500000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003600000008DA930000247449000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0400000003000000020000003600000002DA930036000000020000001700000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000404008DA93000000A841020000003600000002DA93003600000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0400000003000000020000003500000002DA930036000000080000000000804700DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000404008DA93000000A841020000003500000002DA93003500000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0300000003000000020000003700000002DA930035000000080000000000804700DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0200000003000000020000003600000002DA930036000000020000003700000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0400000003000000020000003400000002DA930036000000080000000000804300DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000404008DA93000000A841020000003400000002DA93003400000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0300000003000000020000003700000002DA930034000000080000000000804300DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0200000003000000020000003300000002DA930036000000020000003700000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000304102DA93003300000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000404102DA93003400000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000504102DA93003500000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1300000001000000040000005300000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0E00000001000000080000000000000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1C00000002000000020000002D00000002DA93002F000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0C00000003000000020000002F00000010DA930001000000020000002E00000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002E00000002DA93002F000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0C00000003000000020000003200000010DA930004000000080000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003200000008DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0D00000001000000080000000000000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003200000008DA93000000803F000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0E00000001000000080000000000000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0E00000001000000080000000000000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0C00000003000000020000003200000010DA930004000000080000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA930000008041020000003000000004DA93004800000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0C00000003000000020000003100000010DA930001000000020000003000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000003100000002DA930030000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1300000001000000040000005400000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000803F040000004800000008DA93000000804100007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1300000001000000040000005300000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0E00000001000000080000000000000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0E00000001000000080000000000000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1C00000002000000020000002500000002DA930029000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0C00000003000000020000002600000010DA930001000000020000002900000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002600000002DA930029000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000904102DA93002600000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0E00000001000000080000000000000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1C00000002000000020000002700000002DA930029000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0C00000003000000020000002800000010DA930001000000020000002900000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0000000002000000020000002800000002DA930029000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000C040080000000000984102DA93002800000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0E00000001000000080000000000000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000002000000080000000000004008DA930000000040000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000003000000080000000000004008DA930000004040020000002300000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1D00000002000000020000002400000002DA930023000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0100000003000000020000002100000002DA930021000000080000000000803F00DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        1400000004000000080000000000803F08DA93000000A841400000000200000008DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        2200000001000000400000000200000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000000000000000000DA930000000000
+        --- 1
+        0500000001000000010000003C00000000DA930000000000000000000000000000DA93000000000000007302000000000040000000000000000100000000000000DA930000000000
+    }
+
+    >config
+    {
+        >externals
+        {
+        }
+
+        >device
+        {
+            device = apron
+        }
+
+        >icw
+        {
+            >fragments
+            {
+                count = 0
+            }
+
+            width_bytes = 72
+            count = 126
+        }
+
+    }
+
+}
+

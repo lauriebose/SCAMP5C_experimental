@@ -1,0 +1,124 @@
+!include('apron.aps')
+!include('apron.io.aps')
+!include('apron.scamp5c.host.aps')
+
+!default_palette(0,'scamp5c_analog')
+
+timer.quickfps.start( 1000 )
+
+// section A: locate the icw file and set frame rate
+
+clk[frame_rate] = 30.000000
+!define( SCAMP5C_FPGA_BIT_FILE, 'C:\apron\bin\\models\scamp5c\ok_scamp5c_ipu.bit' )
+!define( ALGORITHM, 'C:\Users\agile\Dropbox\WORK_STUFF\SCAMP\MISC EXAMPLES\TARGET_TRACKING\SWS_TRACKING\SWS_TRACKING_icw.icw' )
+
+
+//------------------------------------------------------------------------------
+
+// section B: establish the gui
+
+!create('coords', 'datasheet', 2, 1)
+datasheet[coords] = reg.setPalette('scamp5c_grey')
+
+_h_sh_01 = sim.slider.add( 'threshold', -120, 120, -100, 1, 1 )
+_h_sv_01 = 0
+
+_h_sh_02 = sim.slider.add( 'flood_iterations', 1, 10, 4, 1, 1 )
+_h_sv_02 = 0
+
+_h_sv_temp = 0
+
+!create( 'W3', REGISTER, PE_DIM_X, PE_DIM_Y )
+r[W3] = reg.setPalette('scamp5c_digital')
+sim.display( r[W3] )
+
+sim.tile
+
+
+//------------------------------------------------------------------------------
+
+_h_button_c = sim.switch.add('Apply Clocks', 0)
+_h_old_c = 1
+_h_new_c = 0
+
+_h_button_p = sim.switch.add('Reprogram', 1)
+_h_old_p = 1
+_h_new_p = 0
+
+_h_temp = 0
+
+_h_file_time = 0
+_h_auto_program = 0
+
+//------------------------------------------------------------------------------
+
+scamp5c.connect
+scamp5c.start
+
+#start
+
+    sim.switch.get( _h_button_c, _h_new_c )
+    if( _h_new_c, !=, _h_old_c )
+        _h_old_c = _h_new_c
+        println('SCAMP5: Writing clocks...')
+        _h_macro_program_clocks
+        println('SCAMP5: Writing finished.')
+    endif
+
+    //----------------
+
+    sim.switch.get( _h_button_p, _h_new_p )
+    if( _h_new_p, !=, _h_old_p )
+        _h_old_p = _h_new_p
+        if( _h_auto_program, >, 0 )
+            _h_auto_program = 0
+        else
+            _h_auto_program = 1
+        endif
+    endif
+
+    if( _h_auto_program, >, 0 )
+        _h_temp = scamp5c.get_file_modification_time( ALGORITHM )
+        if( _h_file_time, !=, _h_temp )
+            _h_file_time = _h_temp
+            println('SCAMP5: Writing program...')
+            scamp5c.program(ALGORITHM)
+            println('SCAMP5: Writing finished.')
+        endif
+    endif
+
+    //----------------
+
+    // section C: get slider value and send to ipu
+
+        sim.slider.get( _h_sh_01, _h_sv_temp )
+    if( _h_sv_01, !=, _h_sv_temp )
+        _h_sv_01 = _h_sv_temp
+        scamp5c.port( 18, _h_sv_01 )
+    endif
+
+    sim.slider.get( _h_sh_02, _h_sv_temp )
+    if( _h_sv_02, !=, _h_sv_temp )
+        _h_sv_02 = _h_sv_temp
+        scamp5c.port( 19, _h_sv_02 )
+    endif
+
+
+
+    //-----------------
+
+    timer.quickfps.update
+    frame_count = frame_count + 1
+
+    //-----------------
+
+    // section D: get image and display
+
+    
+    r[W3] = scamp5c.bit_frame.wait(0)
+    sim.show( r[W3] )
+
+
+jump(#start)
+
+// end

@@ -1,0 +1,112 @@
+APRON Flexible Compiler 2.0
+(c) David R W Barr 2010
+
+This version is for EDUCATIONAL USE ONLY! It has a restriction on several features.
+
+Build Configuration
+Main Source File: C:\Users\agile\Dropbox\WORK_STUFF\SCAMP\MISC EXAMPLES\TARGET_TRACKING\SWS_TRACKING\SWS_TRACKING_icw.host.aps
+Gathering and interpreting source...
+INFO: Including Source File: C:\apron\bin\\include\apron.aps
+INFO: Including Source File: C:\apron\bin\\include\apron_base.aps
+INFO: Defining Type 'register' as SIM_REGISTER
+INFO: Defining Type 'GUI' as SIM_VARIABLE
+INFO: Including Source File: C:\apron\bin\\plugins\apron.io.aps
+INFO: Including Source File: C:\apron\bin\\plugins\apron.scamp5c.host.aps
+INFO: Defining Type 'datasheet' as SIM_REGISTER
+INFO: Defining Type 'clocks' as SIM_VARIABLE
+INFO: Defining Type 'voltages' as SIM_VARIABLE
+INFO: Creating VARIABLE resource 'pin7' of type 'voltages'
+INFO: Creating VARIABLE resource 'pin8' of type 'voltages'
+INFO: Creating VARIABLE resource 'vga_opoff' of type 'voltages'
+INFO: Creating VARIABLE resource 'dac_bias' of type 'voltages'
+INFO: Creating VARIABLE resource 'vga_gainscale' of type 'voltages'
+INFO: Creating VARIABLE resource 'vga_ipoffset' of type 'voltages'
+INFO: Creating VARIABLE resource 'vref_ampA' of type 'voltages'
+INFO: Creating VARIABLE resource 'vref_ampB' of type 'voltages'
+INFO: Creating VARIABLE resource 'adc_ref_hi' of type 'voltages'
+INFO: Creating VARIABLE resource 'adc_ref_lo' of type 'voltages'
+INFO: Creating VARIABLE resource 'pin2' of type 'voltages'
+INFO: Creating VARIABLE resource 'vref' of type 'voltages'
+INFO: Creating VARIABLE resource 'c_bias' of type 'voltages'
+INFO: Creating VARIABLE resource 'c_bus' of type 'voltages'
+INFO: Creating VARIABLE resource 'p_bias' of type 'voltages'
+INFO: Creating VARIABLE resource 'vrpix' of type 'voltages'
+INFO: Creating VARIABLE resource 'vga_gainctrl' of type 'voltages'
+INFO: Creating VARIABLE resource 'dac_ref' of type 'voltages'
+INFO: Creating VARIABLE resource 'tp22' of type 'voltages'
+INFO: Creating VARIABLE resource 'vddf' of type 'voltages'
+INFO: Creating VARIABLE resource 'vdda' of type 'voltages'
+INFO: Creating VARIABLE resource 'vres' of type 'voltages'
+INFO: Creating VARIABLE resource 'vpre' of type 'voltages'
+INFO: Creating VARIABLE resource 'frame_rate' of type 'clocks'
+INFO: Creating VARIABLE resource 'clk1_r' of type 'clocks'
+INFO: Creating VARIABLE resource 'clk1_f' of type 'clocks'
+INFO: Creating VARIABLE resource 'clk2_r' of type 'clocks'
+INFO: Creating VARIABLE resource 'clk2_f' of type 'clocks'
+INFO: Creating VARIABLE resource 'clk3_r' of type 'clocks'
+INFO: Creating VARIABLE resource 'clk3_f' of type 'clocks'
+INFO: Creating VARIABLE resource 'clk4_r' of type 'clocks'
+INFO: Creating VARIABLE resource 'clk4_f' of type 'clocks'
+INFO: Creating REGISTER resource 'image_buffer' of type 'register'
+INFO: Including Source File: C:\apron\bin\\plugins\apron.timer.aps
+INFO: Including Source File: C:\apron\bin\\plugins\apron.math.aps
+INFO: Including Source File: C:\apron\bin\\plugins\apron.stack.aps
+INFO: Creating REGISTER resource 'coords' of type 'datasheet'
+WARNING: Register 'coords' has a total element count (area) that is not a multiple of 4.
+    Results will be unexpected, as this cannot be balanced in the SSE processing unit!
+INFO: Creating REGISTER resource 'W3' of type 'register'
+Unrolling Macros...
+Restructuring code...
+
+Loading Core: 'cores/core_apron.dll'
+Compiling Object Code...
+INFO: Creating VARIABLE resource 'pixels' of type 'variable'
+INFO: Creating VARIABLE resource 'frame_count' of type 'variable'
+INFO: Creating VARIABLE resource 'sim_step' of type 'variable'
+INFO: Creating VARIABLE resource 'quick_fps' of type 'variable'
+INFO: Creating VARIABLE resource 'fps_slider' of type 'variable'
+INFO: Creating VARIABLE resource '_h_sh_01' of type 'variable'
+INFO: Creating VARIABLE resource '_h_sv_01' of type 'variable'
+INFO: Creating VARIABLE resource '_h_sh_02' of type 'variable'
+INFO: Creating VARIABLE resource '_h_sv_02' of type 'variable'
+INFO: Creating VARIABLE resource '_h_sv_temp' of type 'variable'
+INFO: Creating VARIABLE resource '_h_button_c' of type 'variable'
+INFO: Creating VARIABLE resource '_h_old_c' of type 'variable'
+INFO: Creating VARIABLE resource '_h_new_c' of type 'variable'
+INFO: Creating VARIABLE resource '_h_button_p' of type 'variable'
+INFO: Creating VARIABLE resource '_h_old_p' of type 'variable'
+INFO: Creating VARIABLE resource '_h_new_p' of type 'variable'
+INFO: Creating VARIABLE resource '_h_temp' of type 'variable'
+INFO: Creating VARIABLE resource '_h_file_time' of type 'variable'
+INFO: Creating VARIABLE resource '_h_auto_program' of type 'variable'
+INFO: Creating VARIABLE resource 'loword' of type 'variable'
+INFO: Creating VARIABLE resource 'miword' of type 'variable'
+INFO: Creating VARIABLE resource 'hiword' of type 'variable'
+INFO: Creating VARIABLE resource 'k' of type 'variable'
+INFO: Creating VARIABLE resource 'j' of type 'variable'
+Processing Address Shifted ICWs...
+Creating Pretty Code...
+Refining ICWs...
+
+No compiler core report
+
+Compilation Summary
+~~~~~~~~~~~~~~~~~~~
+
+User Type Usage:
+    ID: 13 	  24x variable
+    ID: 0 	   2x register
+    ID: 700 	   0x GUI
+    ID: 301 	   1x datasheet
+    ID: 800 	   9x clocks
+    ID: 801 	  23x voltages
+APRON Simulation Usage:
+     86x SIM string
+     56x SIM variable
+      3x SIM register
+      0x SIM generic
+
+
+COMPILATION SUCCESSFUL!
+
+Build: 71 INFOS, 1 WARNINGS, 0 ERRORS
