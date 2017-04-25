@@ -9,8 +9,8 @@ timer.quickfps.start( 1000 )
 // section A: locate the icw file and set frame rate
 
 clk[frame_rate] = 30.000000
-!define( SCAMP5C_FPGA_BIT_FILE, 'C:\apron\bin\\models\scamp5c\ok_scamp5c_ipu.bit' )
-!define( ALGORITHM, 'C:\Users\agile\Dropbox\WORK_STUFF\SCAMP\MISC EXAMPLES\TARGET_TRACKING\SWS_TRACKING\SWS_TRACKING_icw.icw' )
+!define( SCAMP5C_FPGA_BIT_FILE, 'C:\apron\bin\models\scamp5c\ok_scamp5c_ipu.bit' )
+!define( ALGORITHM, 'C:\Users\Laurie\Dropbox\WORK_STUFF\SCAMP\EXPERIMENT_CODE\SCAMP5C_experimental\SWS_TRACKING\SWS_TRACKING_icw.icw' )
 
 
 //------------------------------------------------------------------------------
@@ -20,17 +20,13 @@ clk[frame_rate] = 30.000000
 !create('coords', 'datasheet', 2, 1)
 datasheet[coords] = reg.setPalette('scamp5c_grey')
 
-_h_sh_01 = sim.slider.add( 'threshold', -120, 120, -100, 1, 1 )
+_h_sh_01 = sim.slider.add( 'threshold', -120, 120, -120, 1, 1 )
 _h_sv_01 = 0
 
 _h_sh_02 = sim.slider.add( 'flood_iterations', 1, 10, 4, 1, 1 )
 _h_sv_02 = 0
 
 _h_sv_temp = 0
-
-!create( 'W3', REGISTER, PE_DIM_X, PE_DIM_Y )
-r[W3] = reg.setPalette('scamp5c_digital')
-sim.display( r[W3] )
 
 sim.tile
 
@@ -115,9 +111,6 @@ scamp5c.start
     // section D: get image and display
 
     
-    r[W3] = scamp5c.bit_frame.wait(0)
-    sim.show( r[W3] )
-
 
 jump(#start)
 

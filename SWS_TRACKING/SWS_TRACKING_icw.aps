@@ -6,7 +6,7 @@ apron.config_begin
     window_1 = host.add_display('W1')
     window_2 = host.add_display('W2')
      window_3 = host.add_display('W3')
-    slider_1 = host.add_slider('threshold', -120, 120, -100)
+    slider_1 = host.add_slider('threshold', -120, 120, -120)
     slider_2 = host.add_slider('flood_iterations', 1, 10, 4)
     
     
@@ -29,8 +29,10 @@ spi.set_transfer_size(20)
 //     rpix
    
     //ipu.wait_frame_trigger
-    //ipu.delay_5ms
-	//ipu.delay_5ms
+    //rpix()
+    
+    ipu.delay_5ms
+	ipu.delay_5ms
 	
     rpix(B,C)
     
@@ -96,8 +98,8 @@ spi.set_transfer_size(20)
     
     //usb.aout(C ,window_1)
     
-    usb.dout(R5 ,window_3)
-    all
+//     usb.dout(R5 ,window_3)
+//     all
 
 //  	  usb.stream_begin(data_1)
 //         usb.stream_send(s15)

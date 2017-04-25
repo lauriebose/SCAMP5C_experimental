@@ -74,7 +74,7 @@
         c|     window_1 = host.add_display('W1')
         c|     window_2 = host.add_display('W2')
         c|      window_3 = host.add_display('W3')
-        c|     slider_1 = host.add_slider('threshold', -120, 120, -100)
+        c|     slider_1 = host.add_slider('threshold', -120, 120, -120)
         c|     slider_2 = host.add_slider('flood_iterations', 1, 10, 4)
         |     
         |     
@@ -298,7 +298,7 @@
         ++| // reset pix to min level
         ++p| !macro_def
         ++pg|     pe.rpix
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     respix
         ++p|     respix
         ++p| !macro_end
@@ -306,7 +306,7 @@
         ++| // reset pix to min level and save its value
         ++p| !macro_def
         ++pg|     pe.rpix($r1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     respix
         ++p|     respix
         ++p|     nop
@@ -317,7 +317,7 @@
         ++| // $r1 will be a half-toned image, $r2 will be a full range image
         ++p| !macro_def
         ++pg|     pe.rpix($r1,$r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = PIX
         ++p|     F = PIX
         ++p|     respix
@@ -329,7 +329,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     pe.cpix($r1,$r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = PIX
         ++p|     F = PIX
         ++p|     $r2 = load($r1 F $r3)
@@ -339,7 +339,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.copy($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     F = $r2
         ++p|     $r1 = F
         ++p| !macro_end
@@ -347,7 +347,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.add($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     F = load($r2 $r3)
         ++p|     $r1 = F
         ++p| !macro_end
@@ -355,7 +355,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     pe.add($r1,$r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     F = load($r1 $r2)
         ++p|     $r1 = F
         ++p| !macro_end
@@ -363,7 +363,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.sub($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     F = $r2
         ++p|     $r1 = load(F $r3)
         ++p| !macro_end
@@ -371,7 +371,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     pe.sub($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     F = $r2
         ++p|     $r2 = load(F $r3)
         ++p| !macro_end
@@ -379,7 +379,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.neg($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     res(F)
         ++p|     $r1 = load($r2 F)
         ++p| !macro_end
@@ -387,7 +387,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.abs($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = $r2
         ++p|     F = $r2
         ++p|     where($r2)
@@ -398,7 +398,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     pe.div($r1,$r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r2 $r3 = $r1
         ++p|     F = load($r1 $r3)
         ++p|     $r3 = load(F $r2)
@@ -411,7 +411,7 @@
         ++| //A destructive division macro. $r3 = $r3/2 under testing
         ++p| !macro_def
         ++pg|     pe.d_div($r1,$r2,$r3) 
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r2 $r3 = $r1
         ++p|     F = load($r1 $r3)
         ++p|     $r1 = load(F $r2)
@@ -422,7 +422,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.in($v)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _mov(su,$v)
         ++p|     _exp(128, IPU_PORT_B)// I resend this every time since oughta keep transitions the same. 
         ++p|      set('sin') //drags the bus to the IN level.
@@ -435,7 +435,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     $r1 = pe.north($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     //R0 = FLAG
         ++p|     //all
         ++p|     NEWS = $r2
@@ -446,7 +446,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     $r1 = pe.east($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     NEWS = $r2
         ++p|     $r1 = EAST
         ++p| !macro_end
@@ -454,7 +454,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     $r1 = pe.west($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     NEWS = $r2
         ++p|     $r1 = WEST
         ++p| !macro_end
@@ -462,7 +462,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     $r1 = pe.south($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     NEWS = $r2
         ++p|     $r1 = SOUTH
         ++p| !macro_end
@@ -470,7 +470,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     $r1 = pe.d2a($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     all
         ++p|     set('plrb' 'rid') //this drives the bus to zero volts
         ++p|     _exp(0,IPU_PORT_B)
@@ -490,21 +490,21 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.not($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = not($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.or($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = load($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.nor($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p| //  set(xPLRB xNBIT xL$r1 xR$r2 xR$r3) 
         ++p|     R0 = load($r2,$r3)
         ++p|     $r1 = not(R0)
@@ -513,7 +513,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.and($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = not($r2)
         ++p|     $r2 = not($r3)
         ++p|     R0 = load($r1,$r2)
@@ -524,7 +524,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = pe.nand($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     R0 = not($r2) //invert both inputs
         ++p|     $r2 = not($r3) 
         ++p|     set(xPLRB xBIT xBITMODE xL$r1 xRFL xR$r2) 
@@ -534,7 +534,7 @@
         ++| // clear first DREG if second DREG is 1
         ++p| !macro_def
         ++pg|     pe.clr_if($r1,$r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     R0 = $r1
         ++p|     $r1 = not(R0)
         ++p|     R0 = or($r1,$r2)
@@ -544,7 +544,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     pe.refresh($r1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     R0 = $r1
         ++p|     $r1 = R0
         ++p| !macro_end
@@ -552,7 +552,7 @@
         ++| // check if first DREG is 0 and second DREG is 1
         ++p| !macro_def
         ++pg|     $out = pe.pattern_0_1($r1,$r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $out = not($r2)
         ++p|     R0 = or($r1,$out)
         ++p|     $out = not(R0)
@@ -561,7 +561,7 @@
         ++| // 
         ++p| !macro_def
         ++pg|     $r1 = pe.a2d($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     where($r2)
         ++p|     $r1 = load(FLAG)
         ++p|     all
@@ -575,147 +575,147 @@
         ++| //
         ++p| !macro_def
         ++pg|     rpix($r1,$r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.rpix($r1,$r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     rpix($r1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.rpix($r1)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     rpix
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.rpix
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     cpix($r1,$r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.cpix($r1,$r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $a = in($p)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $a = pe.in($p)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = copy($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.copy($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = add($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.add($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     add($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.add($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = sub($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.sub($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     sub($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.sub($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     div($r1,$r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.div($r1,$r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = neg($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.neg($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = abs($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.abs($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = north($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.north($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = east($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.east($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = west($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.west($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = south($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.south($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = or($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.or($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = nor($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.nor($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = and($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.and($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = nand($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.nand($r2,$r3)
         ++p| !macro_end
         ++| 
@@ -727,154 +727,154 @@
         ++| //
         ++p| !macro_def
         ++pg|     F.rpix
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.rpix
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     F.rpix($r1,$r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.rpix($r1,$r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $a = F.in($p)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $a = pe.in($p)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.mov($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.copy($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.add($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.add($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     F.add($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.add($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.sub($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.sub($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     F.sub($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.sub($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     F.div($r1,$r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     pe.div($r1,$r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.abs($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.abs($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.neg($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.neg($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.north($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.north($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.east($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.east($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.west($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.west($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.south($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.south($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = F.d2a($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.d2a($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = L.not($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.not($r2)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = L.or($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.or($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = L.nor($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.nor($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = L.and($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.and($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = L.nand($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.nand($r2,$r3)
         ++p| !macro_end
         ++| 
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = L.a2d($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     $r1 = pe.a2d($r2)
         ++p| !macro_end
         ++| 
@@ -1060,7 +1060,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.reset_loop_counter
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _exp(0,IPU_PORT_LOOPC_0)
         ++p|     _exp(0,IPU_PORT_LOOPC_1)
         ++p|     _exp(0,IPU_PORT_LOOPC_2)
@@ -1071,7 +1071,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.inc_loop_counter
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _exp(255, IPU_PORT_CLK_SWITCH)
         ++p|     _nop
         ++p|     
@@ -1096,7 +1096,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.delay_1ms
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _mov(su,20)// gives about 1 ms
         ++p|     _call(#_ipu_su_delay_50us)
         ++p|     _nop
@@ -1106,7 +1106,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.delay_2ms
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _mov(su,40)
         ++p|     _call(#_ipu_su_delay_50us)
         ++p|     _nop
@@ -1116,7 +1116,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.delay_5ms
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _mov(su,100)
         ++p|     _call(#_ipu_su_delay_50us)
         ++p|     _nop
@@ -1126,7 +1126,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.delay_500us
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _mov(su,10)
         ++p|     _call(#_ipu_su_delay_50us)
         ++p|     _nop
@@ -1136,7 +1136,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.delay_50us_x($p)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _mov(su,$p)
         ++p|     _call(#_ipu_su_delay_50us)
         ++p|     _nop
@@ -1146,7 +1146,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.wait_frame_trigger
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _nop
         ++p|     _nop
         ++p|     
@@ -1182,7 +1182,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.set_frame_trigger($p0,$p1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _exp($p0,IPU_PORT_FRAME_CNT_B0)
         ++p|     _exp($p1,IPU_PORT_FRAME_CNT_B1)
         ++p|     _exp(0,IPU_PORT_FRAME_CNT_B2)
@@ -1196,7 +1196,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.send_byte($p1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     :#wait_usb_buffer
         ++p|     // Check buffer has space
         ++p|     _imp(su, IPU_PORT_NO_USB_FLAGS)
@@ -1210,7 +1210,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.pixel_set($r1,$r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _nop
         ++p|     _mov(sx,$r2)
         ++p|     _mov(sy,$r3)
@@ -1224,7 +1224,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = ipu.pixel_select($r2,$r3,$r4,$r5)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _mov(sy,$r3)
         ++p|     _mov(sx,$r2)
         ++p|     _mov(su,$r4)
@@ -1238,7 +1238,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     ipu.pixel_filter($r1,$r2,$r3,$r4,$r5)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _mov(sy,$r3)
         ++p|     _mov(sx,$r2)
         ++p|     _mov(su,$r4)
@@ -1254,7 +1254,7 @@
         ++| //
         ++p| !macro_def
         ++pg|     $r1 = ipu.global_sum($r2,$r3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _exp(2, IPU_PORT_CLK_SWITCH) 
         ++p|     _exp(1, IPU_PORT_ADC_DELAY)
         ++p|     
@@ -1287,7 +1287,7 @@
         ++| //
         ++p| !macro_def 
         ++pg|     $r1 = ipu.full_global_sum($r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     keep
         ++p|     set_sel_ana($r2)
         ++p|     _exp(255, IPU_PORT_CLK_SWITCH)
@@ -1363,7 +1363,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     ipu.config_clocks
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _imp(su,3)
         ++p|     _exp(su,IPU_PORT_RISE_C1)
         ++p|     _imp(su,4)
@@ -1473,7 +1473,7 @@
         +++| // 
         +++p| !macro_def
         +++pg|     spi.reset
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _exp(4,253)
         +++p|     _exp(0,253)
         +++p| !macro_end
@@ -1481,21 +1481,21 @@
         +++| // 
         +++p| !macro_def
         +++pg|     spi.get_fifo_space($p)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _imp($p,IPU_PORT_SPI_FIFO_SPACE)
         +++p| !macro_end
         +++| 
         +++| // 
         +++p| !macro_def
         +++pg|     spi.begin
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _exp(1, 253)
         +++p| !macro_end
         +++| 
         +++| // 
         +++p| !macro_def
         +++pg|     spi.end
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _exp(1, 246)
         +++p|     _exp(0, 246)
         +++p|     _nop
@@ -1505,7 +1505,7 @@
         +++| // 
         +++p| !macro_def
         +++pg|     spi.data_ready
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _exp(1, 246)
         +++p|     _exp(0, 246)
         +++p| !macro_end
@@ -1513,7 +1513,7 @@
         +++| // 
         +++p| !macro_def
         +++pg|     spi.wait_fifo_space($e)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _exp(1, 246)
         +++p|     _exp(0, 246)
         +++p|     :#wait_fifo_space
@@ -1527,7 +1527,7 @@
         +++| // 
         +++p| !macro_def
         +++pg|     spi.wait_fifo
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     :#wait_spi_fifo
         +++p|     _imp(su, IPU_PORT_SPI_USB_FLAGS)
         +++p|     _and(su, 4)
@@ -1537,21 +1537,21 @@
         +++| // 
         +++p| !macro_def
         +++pg|     spi.send_byte($p1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _exp($p1,IPU_PORT_NO_IPU_DO)
         +++p| !macro_end
         +++| 
         +++| // 
         +++p| !macro_def
         +++pg|     $p = spi.port($e)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _imp($p,$e)
         +++p| !macro_end
         +++| 
         +++| // 
         +++p| !macro_def
         +++pg|     spi.send_header_bytes($e,$p0,$p1,$p2)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _mov(sv,$e)
         +++p|     _add(sv,$p0)
         +++p|     _add(sv,$p1)
@@ -1569,14 +1569,14 @@
         +++| // 
         +++p| !macro_def
         +++pg|     spi.send_header($p0)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     spi.send_header_bytes(SPI_PACKET_TYPE_CONST_SIZE,$p0,0,0)
         +++p| !macro_end
         +++| 
         +++| // 
         +++p| !macro_def
         +++pg|     spi.send_header($p0,$p1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     spi.send_header_bytes(SPI_PACKET_TYPE_CONST_SIZE,$p0,$p1,0)
         +++p| !macro_end
         +++| 
@@ -1586,7 +1586,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     spi.set_transfer_size($p0,$p1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     
         +++p|     _exp(255, IPU_PORT_CLK_SWITCH)
         +++p|     _nop
@@ -1603,7 +1603,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     spi.set_transfer_size($p0)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     spi.set_transfer_size($p0,0)
         +++p| !macro_end
         +++| 
@@ -1613,7 +1613,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     spi.send_loop_counter
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     
         +++p|     _exp(255, IPU_PORT_CLK_SWITCH)
         +++p|     _nop
@@ -1649,7 +1649,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     spi.aout($r1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p| 
         +++p|     _exp(2, IPU_PORT_ADC_FEAMP)
         +++p|     keep
@@ -1708,7 +1708,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     spi.aout64($r1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p| 
         +++p|     _exp(2, IPU_PORT_ADC_FEAMP)
         +++p|     keep
@@ -1767,7 +1767,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     spi.dout($r1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _exp(6,IPU_PORT_FALL_C1) //THESE CLOCK CHANGES are here since THE critical item appears to be WHERE rather than the rest of the readout algo
         +++p|     _exp(7,IPU_PORT_RISE_C2) 
         +++p|     _exp(9,IPU_PORT_FALL_C2) 
@@ -1838,7 +1838,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     spi.scan_events($r1,$p0)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     spi.scan_events($r1,$p0,0)
         +++p| !macro_end
         +++| 
@@ -1846,7 +1846,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     spi.scan_events($r1,$p0,$p1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p| 
         +++p|     _exp(255, IPU_PORT_CLK_SWITCH)
         +++p|     _nop
@@ -2016,7 +2016,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     spi.scan_target($r1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     
         +++p|     
         +++p|     _exp(255, IPU_PORT_CLK_SWITCH)
@@ -2161,7 +2161,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     $p1 = usb.slider($p2)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     su = host_slider($p2)
         +++p|     _mov($p1,su)
         +++p|     _cmp($p1,0)
@@ -2170,7 +2170,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.wait_fifo
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     :#wait_usb_fifo
         +++p|     _imp(su, IPU_PORT_NO_USB_FLAGS)
         +++p|     _and(su, 1)
@@ -2180,7 +2180,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.send_byte($p1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     usb.wait_fifo
         +++p|     _exp($p1,IPU_PORT_NO_IPU_DO)
         +++p| !macro_end
@@ -2188,7 +2188,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.aout($r1,$h)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     host_aout($h)
         +++p|     _exp(2, IPU_PORT_ADC_FEAMP)
         +++p|     keep
@@ -2203,7 +2203,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.d2aout($r1,$h)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     all
         +++p|     set('plrb' 'rid' ) //this drives the bus to zero volts
         +++p|     _exp(0, IPU_PORT_B)
@@ -2229,7 +2229,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.dout($r1,$h)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     host_dout($h)
         +++p|     all
         +++p|     _exp(6,IPU_PORT_FALL_C1) //THESE CLOCK CHANGES are here since THE critical item appears to be WHERE rather than the rest of the readout algo
@@ -2248,7 +2248,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.stream_begin($h)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     host_xout($h)
         +++p|     usb.send_byte(PCKT_START)
         +++p|     usb.send_byte(13) // 7 for x, 8 for y, 13 for a stream of bytes
@@ -2262,7 +2262,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.stream_send($p1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     usb.send_byte($p1)
         +++p| !macro_end
         +++| 
@@ -2270,7 +2270,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.stream_end
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _nop
         +++p| !macro_end
         +++| 
@@ -2278,7 +2278,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.stream_end($p1,$p2)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     _mov(sz,$p1)
         +++p|     _cmp(sz,0)
         +++p|     _jump(z,:#no_padding_bytes)
@@ -2294,7 +2294,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.scan_events($h,$r1,$p0)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     usb.scan_events($h,$r1,$p0,0)
         +++p| !macro_end
         +++| 
@@ -2302,7 +2302,7 @@
         +++| 
         +++p| !macro_def
         +++pg|     usb.scan_events($h,$r1,$p0,$p1)
-        +++p| !macro_begin
+        +++pg| !macro_begin
         +++p|     host_xout($h)
         +++p|     
         +++p|     _exp(255, IPU_PORT_CLK_SWITCH)
@@ -2443,7 +2443,7 @@
         ++| //      R4 = 0// east
         ++p| !macro_def
         ++pg|     $ret = pro.digital_news($r1,$str)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _exp(4,IPU_PORT_CLK_SWITCH)
         ++p|     _exp(6,IPU_PORT_RISE_C2)
         ++p|     _exp(7,IPU_PORT_FALL_C2)
@@ -2481,7 +2481,7 @@
         ++| //  May not work at lower frequencies because of need to refresh perhaps or maybe delete some prop statements
         ++p| !macro_def
         ++pg|     $ret = pro.flood_from_boundary($r1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _exp(4, IPU_PORT_CLK_SWITCH)
         ++p|     _nop
         ++p|     R0 = 1
@@ -2531,7 +2531,7 @@
         ++| //  May not work at lower frequencies because of need to refresh perhaps or maybe delete some prop statements 
         ++p| !macro_def
         ++pg|     $ret = pro.flood_from_source($r1,$r2)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     _exp(4, IPU_PORT_CLK_SWITCH)
         ++p|     _nop
         ++p|     R0 = 1
@@ -2574,7 +2574,7 @@
         ++| // Outputs: Analog register $r1
         ++p| !macro_def
         ++pg|     $r1 = pro.diffuse($r2, $r3, $r4)        
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     R0 = 1
         ++p|     R3 = 1
         ++p|     R1 = $r3 //Controls North-South direction
@@ -2592,7 +2592,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     pro.locate_event($r1,$p2,$p3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     
         ++p|     _exp(4,IPU_PORT_CLK_SWITCH) //returns clocks back to normal (9MHz at 90MHz clk)
         ++p|     _nop
@@ -2685,7 +2685,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     pro.scan_target($r1,$p0,$p1,$p2,$p3)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     
         ++p|     
         ++p|     _exp(255, IPU_PORT_CLK_SWITCH)
@@ -2800,7 +2800,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     Wr_Code_to_Dig_Reg($r2,$r1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p| //Aim is to save a code stored in IPU register $r1 to Scamp registers R8 to R1 inclusive
         ++p| //Overwrites IPU registers su and sv and sw
         ++p|     _mov(su, 128) //start with saving the MSB
@@ -2877,7 +2877,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     Set_pixels_in_address_range($r5,$r1,$r2,$r3,$r4)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p| 	//x1,x2,y1,y2
         ++p| 	_exp(0, IPU_PORT_ADDR) //search all col
         ++p|     _exp(1, IPU_PORT_LCX)
@@ -2903,7 +2903,7 @@
         ++| 
         ++p| !macro_def
         ++pg| 	$r1 = GlobalOR($r2)		
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p| 	_exp(0, IPU_PORT_ADDR) 
         ++p| 	_exp(1, IPU_PORT_LR)
         ++p| 	_exp(0, IPU_PORT_LR)
@@ -2929,7 +2929,7 @@
         ++| 
         ++p| !macro_def
         ++pg|     ipu.analog_calibrate
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p| 	_nop
         ++p| _exp(19, IPU_PORT_POWER) //power up Analog
         ++p| _nop
@@ -3009,7 +3009,7 @@
         ++| 
         ++p| !macro_def
         ++pg| 	SetCentres //Given a command A = {nothing}, we want output to deliver value of 0. Adjusts voltage SecAmpOffset to achieve this
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p| _nop
         ++p| 	_exp(8, IPU_PORT_CLK_SWITCH) //returns clocks back to normal (9MHz at 90MHz clk)
         ++p| 	_exp(0, IPU_PORT_RD)
@@ -3085,7 +3085,7 @@
         ++| 
         ++p| !macro_def
         ++pg| 	Calib_IN_Diff
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p| 	_nop
         ++p| 	_mov(s1, 8)  //returns clocks back to normal (9MHz at 90MHz clk)
         ++p| //Now starting the IN calibration routine	
@@ -3338,35 +3338,35 @@
         ++| 
         ++p| !macro_def
         ++pg|     sim.load_pix
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     // ignored
         ++p| !macro_end
         ++| 
         ++| 
         ++p| !macro_def
         ++pg|     sim.pix_source_webcam
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     // ignored
         ++p| !macro_end
         ++| 
         ++| 
         ++p| !macro_def
         ++pg|     sim.pix_source_image($p1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     // ignored
         ++p| !macro_end
         ++| 
         ++| 
         ++p| !macro_def
         ++pg|     sim.pix_source_video($p1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     // ignored
         ++p| !macro_end
         ++| 
         ++| 
         ++p| !macro_def
         ++pg|     sim.use_error_model($p1)
-        ++p| !macro_begin
+        ++pg| !macro_begin
         ++p|     // ignored
         ++p| !macro_end
         ++| 
@@ -4333,8 +4333,16 @@
         | //     rpix
         |    
         |     //ipu.wait_frame_trigger
-        |     //ipu.delay_5ms
-        | 	//ipu.delay_5ms
+        |     //rpix()
+        |     
+        m|     ipu.delay_5ms
+        +c|     _mov(su,100)
+        +c|     _call(#_ipu_su_delay_50us)
+        +c|     _nop
+        m| 	ipu.delay_5ms
+        +c|     _mov(su,100)
+        +c|     _call(#_ipu_su_delay_50us)
+        +c|     _nop
         | 	
         m|     rpix(B,C)
         +m|     pe.rpix(ar[B],ar[C])
@@ -4697,20 +4705,8 @@
         |     
         |     //usb.aout(C ,window_1)
         |     
-        m|     usb.dout(R5 ,window_3)
-        +c|     host_dout(window_3)
-        +c|     all
-        +c|     _exp(6,IPU_PORT_FALL_C1) //THESE CLOCK CHANGES are here since THE critical item appears to be WHERE rather than the rest of the readout algo
-        +c|     _exp(7,IPU_PORT_RISE_C2) 
-        +c|     _exp(9,IPU_PORT_FALL_C2) 
-        +c|     _nop 
-        +c|     where(dr[R5])
-        +c|     _call(#_ipu_sa_dout_usb)
-        +c|     _nop
-        +c|     _exp(4,IPU_PORT_FALL_C1)
-        +c|     _exp(5,IPU_PORT_RISE_C2) 
-        +c|     _exp(9,IPU_PORT_FALL_C2) 
-        c|     all
+        | //     usb.dout(R5 ,window_3)
+        | //     all
         | 
         | //  	  usb.stream_begin(data_1)
         | //         usb.stream_send(s15)
@@ -6889,6 +6885,18 @@
         --- 1
         0046000023DC00000000000000000000
         --- 1
+        00000000000000000000000000000000
+        --- 1
+        134001FD900000000000000000000000
+        --- 1
+        00002601380000000000000000000000
+        --- 1
+        00000000000000000000000000000000
+        --- 1
+        134001FD900000000000000000000000
+        --- 1
+        00002601380000000000000000000000
+        --- 1
         40000000000000000000000000000000
         --- 1
         80000000000000000000000000404002
@@ -7195,7 +7203,7 @@
         --- 1
         1F4000D4040000000000000000000000
         --- 1
-        4000040B300000000000000000000000
+        4000040B480000000000000000000000
         --- 1
         C0000000000000003404001000000000
         --- 1
@@ -7385,32 +7393,7 @@
         --- 1
         0046000003F400000000000000000000
         --- 1
-        40000000000000000000000000000000
-        --- 0
-        --- 1
-        C0000000000000000000000010000000
-        --- 1
-        004600001A3000000000000000000000
-        --- 1
-        004600001E3400000000000000000000
-        --- 1
-        00460000263800000000000000000000
-        --- 1
-        40000000000000000000000000000000
-        --- 1
-        C0000000000000002000001000100800
-        --- 1
-        00002603AC0000000000000000000000
-        --- 1
         00000000000000000000000000000000
-        --- 1
-        00460000123000000000000000000000
-        --- 1
-        00460000163400000000000000000000
-        --- 1
-        40460000263800000000000000000000
-        --- 1
-        C0000000000000000000000010000000
         --- 1
         0000060A480000000000000000000000
         --- 0
@@ -7436,7 +7419,7 @@
             }
 
             width_bytes = 16
-            count = 938
+            count = 931
         }
 
     }
